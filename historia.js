@@ -1,0 +1,335 @@
+/* ============================================================
+   Nuestra historia · lógica
+   - render de capítulos
+   - mapa Leaflet de Quito con pines + ruta
+   - scrollytelling: el mapa vuela al lugar del capítulo activo
+   - reveal al hacer scroll
+   - cuenta regresiva al primer mes
+   ============================================================ */
+(function () {
+  "use strict";
+
+  // --- Datos: cada capítulo de la historia (prosa libre, no literal) ---
+  const CHAPTERS = [
+    {
+      photo: "fotos/00-inicio.png", wide: true,
+      chip: "16 Jul", date: "16 de julio de 2025", place: "EDINUN · Quito",
+      coords: [-0.1762, -78.4830],
+      badge: "Donde empezó todo",
+      title: "El día que te conocí",
+      text: [
+        "Llegué a un trabajo nuevo sin imaginar que la mejor parte no estaría en el contrato. Te vi de lejos un quince de julio; al día siguiente, en la inducción, te conocí de verdad.",
+        "No hizo falta más. Desde ese instante quedó decidido en silencio que yo iba a buscar la forma de volver a verte."
+      ]
+    },
+    {
+      photo: "fotos/01-michael.png",
+      chip: "26 Abr", date: "26 de abril", place: "Cine · El Condado Shopping",
+      coords: [-0.0986, -78.4966],
+      title: "Nuestra primera película",
+      text: [
+        "Te invité al cine y, aunque insistías en que “esto no era una cita”, un peluche pequeñito de la nada se encargó de desmentirte.",
+        "Después caminamos sin rumbo, compartimos un postre y hasta discutimos como novios por un Uber. Esa noche se fue la luz de la ciudad, pero nada logró apagar el día."
+      ]
+    },
+    {
+      photo: "fotos/02-katari.jpeg",
+      chip: "2 May", date: "2 de mayo", place: "Katari · Cumbayá",
+      coords: [-0.2052, -78.4287],
+      badge: "Primer beso", star: true,
+      title: "El primer beso",
+      text: [
+        "Música en vivo, un par de tragos y horas que se sintieron minutos. Esa noche, entre risas, por fin me armé de valor.",
+        "Te besé por primera vez. Y el valle, allá abajo, brillaba como si ya supiera lo que apenas estábamos descubriendo."
+      ]
+    },
+    {
+      photo: "fotos/03-bolos.jpeg",
+      chip: "8 May", date: "8 de mayo", place: "Multicines · Quicentro",
+      coords: [-0.1759, -78.4795],
+      title: "Jugar contigo",
+      text: [
+        "Bolos, máquinas del arcade y algo coreano para comer. Perdí casi todas las partidas y no me importó en absoluto.",
+        "Terminamos sentados en el patio de comidas, sin ninguna prisa por que el día se acabara."
+      ]
+    },
+    {
+      photo: "fotos/04-flores.jpeg",
+      chip: "13 May", date: "13 de mayo", place: "Un café · entre semana",
+      coords: [-0.1808, -78.4848],
+      badge: "Primeras rosas",
+      title: "Las primeras rosas",
+      text: [
+        "Le robamos una tarde a un martes cualquiera solo para vernos. Casi nos descubren, y tampoco nos importó.",
+        "Ese día te llevé rosas por primera vez: la excusa perfecta para verte sonreír de cerca."
+      ]
+    },
+    {
+      photo: "fotos/05-carolina.jpeg",
+      chip: "16 May", date: "16 de mayo", place: "Parque La Carolina",
+      coords: [-0.1828, -78.4840],
+      title: "Correr y quedarnos",
+      text: [
+        "Corrimos, paseamos y hablamos hasta que la tarde se nos escapó. Te di a probar un pedazo de mi tierra en un plato.",
+        "Y entre todo eso, conocí a tu mamá. El día se volvió importante sin avisarnos."
+      ]
+    },
+    {
+      photo: "fotos/06-gomichelas.jpeg",
+      chip: "22 May", date: "22 de mayo", place: "Mitad del Mundo",
+      coords: [-0.0022, -78.4558],
+      title: "A mitad del mundo",
+      text: [
+        "Una gomichela, una torre de Jenga y unos besos a escondidas de Samy, nuestra cómplice.",
+        "Estábamos parados justo en la mitad del planeta y, aun así, lo único que se sentía centro de todo era estar contigo."
+      ]
+    },
+    {
+      photo: "fotos/07-novios.jpeg",
+      chip: "24 May", date: "24 de mayo", place: "Pintando cerámica",
+      coords: [-0.1746, -78.4818],
+      badge: "Nos hicimos novios", star: true,
+      title: "El sí",
+      text: [
+        "Tú pintabas un tiki con toda la calma; yo, un Pikachu que no sobrevivió al intento. Cuando terminamos, te pregunté si querías ser mi novia.",
+        "Dijiste que sí. Lo demás fue caminar abrazados y sentir que, por fin, todo encajaba en su lugar."
+      ]
+    },
+    {
+      photo: "fotos/08-coco.jpg",
+      chip: "29 May", date: "29 de mayo", place: "Nuestro rincón",
+      coords: [-0.1300, -78.4850],
+      title: "Quedarnos quietos",
+      text: [
+        "Agua de coco, pistachos y un sillón. A veces la mejor cita no necesita ningún plan.",
+        "Solo tú, yo y un rato de acurrucarnos: la prueba de que también sabemos estar en silencio y seguir felices."
+      ]
+    },
+    {
+      photo: "fotos/09-basilica.jpeg",
+      chip: "31 May", date: "31 de mayo", place: "Basílica del Voto Nacional",
+      coords: [-0.2147, -78.5073],
+      title: "Como si fuéramos de siempre",
+      text: [
+        "Fuimos en metro, nos confundieron con turistas y posamos para mil fotos entre las torres.",
+        "Comimos como un viejo matrimonio en un restaurante de toda la vida y volvimos en bus, con dulces para probar juntos en el camino."
+      ]
+    },
+    {
+      photo: "fotos/10-backrooms.jpeg",
+      chip: "5 Jun", date: "5 de junio", place: "Cine · función de noche",
+      coords: [-0.1060, -78.4830],
+      title: "Tarde, pero juntos",
+      text: [
+        "Un mal desvío nos hizo llegar treinta minutos tarde a la película. Daba exactamente igual.",
+        "El verdadero plan llegó después: tú, abrazada a mí en el Uber, como si afuera no existiera nada más."
+      ]
+    },
+    {
+      photo: "fotos/11-kia.jpeg",
+      chip: "6 Jun", date: "6 de junio", place: "Museo interactivo Kia eGround",
+      coords: [-0.1830, -78.4720],
+      title: "Vestirnos el uno al otro",
+      text: [
+        "Un museo lleno de botones, pizza mitad y mitad, y un juego nuestro: cada uno elegía la ropa del otro.",
+        "Así aprendí cómo te gusta verme. Cerramos con un bubble tea y otro viaje de vuelta con final feliz."
+      ]
+    },
+    {
+      photo: "fotos/cabina-2.jpg", wide: true,
+      chip: "13–14 Jun", date: "13 y 14 de junio", place: "Un fin de semana nuestro",
+      coords: [-0.1900, -78.4880],
+      title: "Jugar a la vida juntos",
+      text: [
+        "Hicimos las compras como esposos y nos encerramos dos días en un mundo nuestro: piscina, sauna y una cena cocinada a cuatro manos.",
+        "Vimos una película con un vino, dormimos abrazados y desayunamos en la terraza. Por un fin de semana, el futuro nos quedó cerquita."
+      ]
+    },
+    {
+      photo: "fotos/cabina-4.jpg", wide: true,
+      chip: "20 Jun", date: "20 de junio", place: "El Portal · Toy Story",
+      coords: [-0.1556, -78.4762],
+      badge: "Toy Story", star: true,
+      title: "Hacia el infinito",
+      text: [
+        "Nos encontramos para ver Toy Story y retiramos tu cerámica, ya horneada y hermosa. Caminamos viendo el mundial sin querer soltarnos.",
+        "Hasta sin Uber, el camino a casa terminó siendo nuestro. Porque contigo, hasta lo complicado se convierte en aventura."
+      ]
+    }
+  ];
+
+  const FIRST_MONTH = new Date("2026-06-24T00:00:00");
+
+  // ---------------- render de capítulos ----------------
+  const story = document.getElementById("story");
+  CHAPTERS.forEach((c, i) => {
+    const art = document.createElement("article");
+    art.className = "chapter";
+    art.dataset.index = i;
+    art.id = "cap-" + i;
+    const badge = c.badge
+      ? `<span class="badge ${c.star ? "gold" : ""}">${c.star ? "★" : "✿"} ${c.badge}</span>`
+      : "";
+    art.innerHTML = `
+      <div class="chapter-media reveal ${c.wide ? "wide" : ""}">
+        <img src="${c.photo}" alt="${c.title}" loading="lazy" decoding="async">
+        ${badge}
+      </div>
+      <div class="chapter-body reveal">
+        <div class="meta">
+          <span class="num ${c.star ? "star" : ""}">${i === 0 ? "♥" : i}</span>
+          <span class="chip">${c.chip}</span>
+          <span class="place"><span class="pin">◍</span> ${c.place}</span>
+        </div>
+        <h2 class="chapter-title">${c.title}</h2>
+        ${c.text.map((p) => `<p>${p}</p>`).join("")}
+      </div>`;
+    story.appendChild(art);
+  });
+
+  // ---------------- reveal al hacer scroll (independiente del mapa) ----------------
+  const revealObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          revealObs.unobserve(e.target);
+        }
+      });
+    },
+    { rootMargin: "0px 0px -12% 0px", threshold: 0.12 }
+  );
+  document.querySelectorAll(".reveal").forEach((el) => revealObs.observe(el));
+
+  // ---------------- cuenta regresiva (independiente del mapa) ----------------
+  const cd = document.getElementById("countdown");
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function tick() {
+    if (!cd) return;
+    const now = new Date();
+    let diff = FIRST_MONTH - now;
+    if (diff <= 0) {
+      cd.innerHTML = `<div class="cd-done">¡Feliz primer mes, mi amor! 🚀</div>`;
+      return;
+    }
+    const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+    const h = Math.floor(diff / 3600000); diff -= h * 3600000;
+    const m = Math.floor(diff / 60000); diff -= m * 60000;
+    const s = Math.floor(diff / 1000);
+    cd.innerHTML = [
+      [d, "días"], [h, "horas"], [m, "min"], [s, "seg"]
+    ].map(([v, l]) => `<div class="cd-box"><div class="cd-num">${l === "días" ? v : pad(v)}</div><div class="cd-label">${l}</div></div>`).join("");
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---------------- mapa (Leaflet) ----------------
+  // Si Leaflet (CDN) no carga, la historia y la cuenta regresiva siguen
+  // funcionando: el mapa solo es un plus, nunca debe romper la página.
+  if (typeof L === "undefined") {
+    const mapEl = document.getElementById("map");
+    if (mapEl) mapEl.classList.add("map-unavailable");
+    console.warn("Leaflet no disponible: se omite el mapa, el resto de la página funciona igual.");
+    return;
+  }
+
+  try {
+    const map = L.map("map", {
+      zoomControl: false,
+      scrollWheelZoom: false,
+      attributionControl: true,
+      zoomSnap: 0.25
+    });
+    L.control.zoom({ position: "bottomright" }).addTo(map);
+
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
+      }
+    ).addTo(map);
+
+    // ruta del amor (en orden cronológico)
+    const path = CHAPTERS.map((c) => c.coords);
+    L.polyline(path, {
+      color: "#c1663d",
+      weight: 2,
+      opacity: 0.55,
+      dashArray: "2 8",
+      lineCap: "round"
+    }).addTo(map);
+
+    // marcadores
+    const markers = CHAPTERS.map((c, i) => {
+      const icon = L.divIcon({
+        className: "",
+        html: `<div class="mk ${c.star ? "star" : ""}" data-i="${i}">${i === 0 ? "♥" : i}</div>`,
+        iconSize: [26, 26],
+        iconAnchor: [13, 13]
+      });
+      const m = L.marker(c.coords, { icon, riseOnHover: true }).addTo(map);
+      m.on("click", () => {
+        document.getElementById("cap-" + i).scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      return m;
+    });
+
+    const bounds = L.latLngBounds(path);
+    map.fitBounds(bounds, { padding: [50, 50] });
+    setTimeout(() => map.invalidateSize(), 250);
+    window.addEventListener("resize", () => map.invalidateSize());
+
+    // caption del mapa
+    const cap = document.getElementById("mapCap");
+    function markerEl(i) {
+      if (i < 0 || i >= markers.length) return null;
+      const ic = markers[i].getElement();
+      return ic ? ic.querySelector(".mk") : null;
+    }
+
+    let active = -1;
+    function setActive(i) {
+      if (i === active) return;
+      const prev = markerEl(active);
+      if (prev) prev.classList.remove("active");
+      document.querySelectorAll(".chapter.active").forEach((el) => el.classList.remove("active"));
+
+      active = i;
+      const c = CHAPTERS[i];
+      const el = markerEl(i);
+      if (el) el.classList.add("active");
+      const art = document.getElementById("cap-" + i);
+      if (art) art.classList.add("active");
+
+      map.flyTo(c.coords, 14.5, { duration: 1.15, easeLinearity: 0.25 });
+
+      cap.innerHTML = `<span class="pin">📍</span> <span>${c.place}</span> <span class="sep">·</span> <span class="date">${c.date}</span>`;
+      cap.classList.add("show");
+    }
+
+    // observer: capítulo activo cuando cruza el centro
+    const activeObs = new IntersectionObserver(
+      (entries) => {
+        // elige la entrada visible más cercana al centro
+        let best = null;
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
+          }
+        });
+        if (best) setActive(+best.target.dataset.index);
+      },
+      { rootMargin: "-46% 0px -46% 0px", threshold: [0, 0.5, 1] }
+    );
+    document.querySelectorAll(".chapter").forEach((el) => activeObs.observe(el));
+
+    // primer capítulo activo al cargar
+    setTimeout(() => setActive(0), 400);
+  } catch (err) {
+    console.error("No se pudo inicializar el mapa:", err);
+    const mapEl = document.getElementById("map");
+    if (mapEl) mapEl.classList.add("map-unavailable");
+  }
+})();

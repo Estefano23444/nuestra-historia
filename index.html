@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nuestra historia · un mapa de nosotros</title>
+  <meta name="description" content="De un 16 de julio a nuestro primer mes: la historia de nosotros, contada lugar por lugar en un mapa de Quito." />
+  <meta property="og:title" content="Nuestra historia · un mapa de nosotros" />
+  <meta property="og:description" content="Cada lugar de Quito donde nos enamoramos, en un solo mapa." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://estefano23444.github.io/nuestra-historia/" />
+  <meta property="og:image" content="https://estefano23444.github.io/nuestra-historia/fotos/cabina-1.jpg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="720" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='84'>❤</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <link rel="stylesheet" href="historia.css" />
+</head>
+<body>
+
+  <!-- barra superior -->
+  <header class="topbar">
+    <a class="brand" href="#"><span class="heart">❤</span> Nosotros</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-media">
+      <img class="hero-fill" src="fotos/cabina-1.jpg" alt="" aria-hidden="true" />
+      <img class="hero-photo" src="fotos/cabina-1.jpg" alt="Nosotros, en una cabina de fotos" />
+    </div>
+    <div class="hero-inner">
+      <p class="hero-kicker">Quito · 2025 — 2026</p>
+      <h1>Nuestra<br><em>historia</em></h1>
+      <p class="lead">Un mapa de la ciudad donde, cita a cita, nos fuimos enamorando. Desliza para recorrer cada lugar que se volvió nuestro.</p>
+    </div>
+    <div class="scroll-cue"><span>desliza</span><span class="dot"></span></div>
+  </section>
+
+  <!-- PRELUDIO -->
+  <section class="prelude">
+    <p class="eyebrow">Antes de empezar</p>
+    <p>“Todo gran amor tiene un mapa. Este es el nuestro, y apenas llevamos el primer mes.”</p>
+    <span class="sign">— Estéfano, para ti</span>
+  </section>
+
+  <!-- STAGE: mapa sticky + historia -->
+  <div class="stage">
+    <div class="map-col">
+      <div id="map"></div>
+      <div class="map-cap" id="mapCap"></div>
+      <div class="map-legend"><span><b>●</b> cada cita</span><span><b>★</b> momento clave</span></div>
+    </div>
+    <div class="story-col" id="story">
+      <!-- capítulos inyectados por historia.js -->
+    </div>
+  </div>
+
+  <!-- FINAL -->
+  <section class="finale">
+    <p class="eyebrow">24 de junio</p>
+    <h2>Y apenas estamos empezando</h2>
+    <p class="sub">Cada Uber abrazados, cada comida nueva y cada “sí” nos trajo hasta aquí: nuestro primer mes juntos.</p>
+
+    <div class="countdown" id="countdown"></div>
+
+    <div class="collage">
+      <img src="fotos/cabina-2.jpg" alt="Nosotros" style="--r:-3deg" loading="lazy" />
+      <img src="fotos/cabina-3.jpg" alt="Nosotros" style="--r:2deg" loading="lazy" />
+      <img src="fotos/cabina-4.jpg" alt="Nosotros" style="--r:-2deg" loading="lazy" />
+      <img src="fotos/cabina-5.jpg" alt="Nosotros" style="--r:3deg" loading="lazy" />
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#">Volver a vivirlo ↑</a>
+    </div>
+
+    <p class="sign-final">Hacia el infinito y más allá. — E.</p>
+  </section>
+
+  <footer class="site-foot">
+    Hecho con <span class="heart">❤</span> en Quito · Nuestra historia
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="historia.js"></script>
+</body>
+</html>

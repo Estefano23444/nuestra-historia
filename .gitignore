@@ -1,0 +1,16 @@
+# Notas privadas (no publicar)
+NuestraHistoria.txt
+
+# Respaldo de las fotos originales (solo local)
+_originales/
+
+# Borrador anterior archivado (solo local)
+_borrador-anterior/
+
+# Config local de herramientas
+.claude/
+
+# Basura del sistema
+.DS_Store
+Thumbs.db
+*.log
