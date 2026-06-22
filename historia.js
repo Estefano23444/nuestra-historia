@@ -29,7 +29,7 @@
       title: "Nuestra primera película",
       text: [
         "Te invité al cine y, aunque insistías en que “esto no era una cita”, un peluche pequeñito de la nada se encargó de desmentirte.",
-        "Después caminamos sin rumbo, compartimos un postre y hasta discutimos como novios por un Uber. Esa noche se fue la luz de la ciudad, pero nada logró apagar el día."
+        "Después caminamos sin rumbo, compartimos un postre y hasta discutimos como novios por un Uber. Esa noche se fue la luz en tu casa, pero nada logró apagar el día."
       ]
     },
     {
@@ -40,7 +40,7 @@
       title: "El primer beso",
       text: [
         "Música en vivo, un par de tragos y horas que se sintieron minutos. Esa noche, entre risas, por fin me armé de valor.",
-        "Te besé por primera vez. Y el valle, allá abajo, brillaba como si ya supiera lo que apenas estábamos descubriendo."
+        "Te besé por primera vez. Y Cumbayá, allá abajo, brillaba como si ya supiera lo que apenas estábamos descubriendo."
       ]
     },
     {
@@ -49,7 +49,7 @@
       coords: [-0.176292, -78.479249],
       title: "Jugar contigo",
       text: [
-        "Bolos, máquinas del arcade y algo coreano para comer. Perdí casi todas las partidas y no me importó en absoluto.",
+        "Bolos, máquinas del arcade y algo coreano para comer. En los bolos me fue bien; en el arcade, en cambio, me ganaste sin piedad, y no me importó en absoluto.",
         "Terminamos sentados en el patio de comidas, sin ninguna prisa por que el día se acabara."
       ]
     },
@@ -60,7 +60,7 @@
       badge: "Primeras rosas",
       title: "Las primeras rosas",
       text: [
-        "Le robamos una tarde a un martes cualquiera solo para vernos. Casi nos descubren, y tampoco nos importó.",
+        "Le robamos una tarde a un martes cualquiera, un café a escondidas del mundo solo para vernos.",
         "Ese día te llevé rosas por primera vez: la excusa perfecta para verte sonreír de cerca."
       ]
     },
@@ -70,14 +70,14 @@
       coords: [-0.183873, -78.484703],
       title: "Correr y quedarnos",
       text: [
-        "Corrimos, paseamos y hablamos hasta que la tarde se nos escapó. Te di a probar un pedazo de mi tierra en un plato.",
+        "Corrimos, paseamos y hablamos hasta que la tarde se nos escapó. Probamos juntos una comida nueva, solo por curiosidad, y nos encantó.",
         "Y entre todo eso, conocí a tu mamá. El día se volvió importante sin avisarnos."
       ]
     },
     {
       photo: "fotos/06-gomichelas.jpeg",
       chip: "22 May", date: "22 de mayo", place: "Mitad del Mundo",
-      coords: [-0.002196, -78.455889],
+      coords: [-0.008609, -78.453176],
       title: "A mitad del mundo",
       text: [
         "Una gomichela, una torre de Jenga y unos besos a escondidas de Samy, nuestra cómplice.",
@@ -98,11 +98,11 @@
     {
       photo: "fotos/08-coco.jpg",
       chip: "29 May", date: "29 de mayo", place: "Nuestro rincón",
-      coords: [-0.047790, -78.460813],
+      coords: [-0.007782, -78.442145],
       title: "Quedarnos quietos",
       text: [
         "Agua de coco, pistachos y un sillón. A veces la mejor cita no necesita ningún plan.",
-        "Solo tú, yo y un rato de acurrucarnos: la prueba de que también sabemos estar en silencio y seguir felices."
+        "Solo tú, yo y la casa entera para nosotros: nos acurrucamos, nos buscamos despacio y dejamos que la tarde se volviera nuestra, sin prisa y sin nadie más."
       ]
     },
     {
@@ -152,8 +152,8 @@
       badge: "Toy Story", star: true,
       title: "Hacia el infinito",
       text: [
-        "Nos encontramos para ver Toy Story y retiramos tu cerámica, ya horneada y hermosa. Caminamos viendo el mundial sin querer soltarnos.",
-        "Hasta sin Uber, el camino a casa terminó siendo nuestro. Porque contigo, hasta lo complicado se convierte en aventura."
+        "Nos encontramos para ver Toy Story y retiramos tu cerámica, ya horneada y hermosa. Almorzamos pizza en Domino's con el Mundial de fondo, sin querer soltarnos.",
+        "Sin Uber a la vista, llegamos tarde al Portal y alcanzamos a ver un pedazo del partido de Ecuador en las pantallas gigantes, justo antes de despedirnos. Porque contigo, hasta lo complicado se convierte en aventura."
       ]
     }
   ];
