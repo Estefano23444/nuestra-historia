@@ -226,6 +226,69 @@ a{ color:inherit; }
 }
 .mk.star.active{ background:var(--gold); box-shadow:0 0 0 6px rgba(194,160,90,.25), 0 8px 20px -4px rgba(58,45,39,.55); }
 
+/* ---------- Maximizar mapa + navegación por puntos ---------- */
+.map-btn{
+  position:absolute; right:14px; top:14px; z-index:1100;
+  width:40px; height:40px; border-radius:10px;
+  display:grid; place-items:center; cursor:pointer;
+  background:rgba(255,250,243,.94); border:1px solid var(--line);
+  box-shadow:var(--shadow-sm); color:var(--ink);
+  font-size:1.1rem; line-height:1; transition:.2s;
+}
+.map-btn:hover{ background:#fff; transform:translateY(-1px); }
+.map-close{ display:none; }
+.map-col.maximized .map-maximize{ display:none; }
+.map-col.maximized .map-close{ display:grid; }
+
+.map-col.maximized{
+  position:fixed; top:0; left:0;
+  width:100vw; height:100svh; min-height:0;
+  z-index:2000; border:none;
+}
+body.map-open{ overflow:hidden; }
+.map-col.maximized .map-cap,
+.map-col.maximized .map-legend{ display:none; }
+.map-col.maximized .leaflet-bottom.leaflet-right{ bottom:86px; }
+
+.map-toolbar{
+  display:none;
+  position:absolute; left:50%; bottom:18px; z-index:1100;
+  transform:translateX(-50%);
+  width:min(640px, calc(100% - 24px));
+  align-items:center; gap:.5rem;
+  background:rgba(255,250,243,.97); border:1px solid var(--line);
+  border-radius:16px; padding:.5rem; box-shadow:var(--shadow);
+}
+.map-col.maximized .map-toolbar{ display:flex; }
+.mt-btn{
+  flex:none; width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--line); background:var(--paper);
+  cursor:pointer; color:var(--ink); font:400 1.5rem/1 var(--sans);
+  display:grid; place-items:center; transition:.2s;
+}
+.mt-btn:hover:not(:disabled){ background:var(--rose-soft); transform:scale(1.06); }
+.mt-btn:disabled{ opacity:.35; cursor:default; }
+.mt-info{
+  flex:1 1 auto; min-width:0; display:flex; align-items:center; gap:.7rem;
+  background:none; border:none; cursor:pointer; text-align:left;
+  padding:.2rem .4rem; color:inherit; font:inherit;
+}
+.mt-num{
+  flex:none; width:30px; height:30px; border-radius:50%;
+  display:grid; place-items:center; background:var(--terra); color:#fff;
+  font:700 .82rem/1 var(--sans);
+}
+.mt-num.star{ background:var(--gold); }
+.mt-text{ display:flex; flex-direction:column; min-width:0; }
+.mt-title{
+  font-family:var(--serif); font-style:italic; font-size:1.05rem; color:var(--ink);
+  line-height:1.15; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.mt-place{
+  font-size:.72rem; color:var(--muted);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
 /* ---------- Story column ---------- */
 .story-col{
   padding:clamp(40px,7vw,96px) clamp(20px,5vw,72px) clamp(60px,9vw,140px);

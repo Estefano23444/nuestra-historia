@@ -242,6 +242,8 @@
     });
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
+    const mapCol = document.querySelector(".map-col");
+
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
       {
@@ -271,7 +273,11 @@
       });
       const m = L.marker(c.coords, { icon, riseOnHover: true }).addTo(map);
       m.on("click", () => {
-        document.getElementById("cap-" + i).scrollIntoView({ behavior: "smooth", block: "center" });
+        if (mapCol && mapCol.classList.contains("maximized")) {
+          setActive(i);
+        } else {
+          document.getElementById("cap-" + i).scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       });
       return m;
     });
@@ -307,6 +313,7 @@
 
       cap.innerHTML = `<span class="pin">📍</span> <span>${c.place}</span> <span class="sep">·</span> <span class="date">${c.date}</span>`;
       cap.classList.add("show");
+      updateToolbar(i);
     }
 
     // observer: capítulo activo cuando cruza el centro
@@ -324,6 +331,79 @@
       { rootMargin: "-46% 0px -46% 0px", threshold: [0, 0.5, 1] }
     );
     document.querySelectorAll(".chapter").forEach((el) => activeObs.observe(el));
+
+    // ---- maximizar mapa + navegación por los puntos ----
+    const btnMax = document.createElement("button");
+    btnMax.type = "button";
+    btnMax.className = "map-btn map-maximize";
+    btnMax.setAttribute("aria-label", "Maximizar mapa");
+    btnMax.innerHTML = "⤢";
+    const btnClose = document.createElement("button");
+    btnClose.type = "button";
+    btnClose.className = "map-btn map-close";
+    btnClose.setAttribute("aria-label", "Cerrar mapa");
+    btnClose.innerHTML = "✕";
+    const toolbar = document.createElement("div");
+    toolbar.className = "map-toolbar";
+    toolbar.innerHTML =
+      '<button class="mt-btn mt-prev" type="button" aria-label="Cita anterior">‹</button>' +
+      '<button class="mt-info" type="button" title="Ver este recuerdo">' +
+      '<span class="mt-num"></span>' +
+      '<span class="mt-text"><span class="mt-title"></span><span class="mt-place"></span></span>' +
+      "</button>" +
+      '<button class="mt-btn mt-next" type="button" aria-label="Cita siguiente">›</button>';
+    mapCol.appendChild(btnMax);
+    mapCol.appendChild(btnClose);
+    mapCol.appendChild(toolbar);
+
+    const btnPrev = toolbar.querySelector(".mt-prev");
+    const btnNext = toolbar.querySelector(".mt-next");
+    const tbInfo = toolbar.querySelector(".mt-info");
+    const tbNum = toolbar.querySelector(".mt-num");
+    const tbTitle = toolbar.querySelector(".mt-title");
+    const tbPlace = toolbar.querySelector(".mt-place");
+
+    function updateToolbar(i) {
+      if (i < 0 || i >= CHAPTERS.length) return;
+      const c = CHAPTERS[i];
+      tbNum.textContent = i === 0 ? "♥" : i;
+      tbNum.classList.toggle("star", !!c.star);
+      tbTitle.textContent = c.title;
+      tbPlace.textContent = c.place + " · " + c.date;
+      btnPrev.disabled = i <= 0;
+      btnNext.disabled = i >= CHAPTERS.length - 1;
+    }
+
+    function setMaximized(on) {
+      mapCol.classList.toggle("maximized", on);
+      document.body.classList.toggle("map-open", on);
+      if (map.scrollWheelZoom) {
+        if (on) map.scrollWheelZoom.enable();
+        else map.scrollWheelZoom.disable();
+      }
+      setTimeout(function () {
+        map.invalidateSize();
+        if (active >= 0) map.setView(CHAPTERS[active].coords, Math.max(map.getZoom(), 14));
+        else map.fitBounds(bounds, { padding: [50, 50] });
+      }, 80);
+    }
+
+    btnMax.addEventListener("click", function () { setMaximized(true); });
+    btnClose.addEventListener("click", function () { setMaximized(false); });
+    btnPrev.addEventListener("click", function () { if (active > 0) setActive(active - 1); });
+    btnNext.addEventListener("click", function () { if (active < CHAPTERS.length - 1) setActive(active + 1); });
+    tbInfo.addEventListener("click", function () {
+      const i = active;
+      setMaximized(false);
+      const art = document.getElementById("cap-" + i);
+      if (art) art.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    window.addEventListener("keydown", function (e) {
+      if (!mapCol.classList.contains("maximized")) return;
+      if (e.key === "Escape") setMaximized(false);
+      else if (e.key === "ArrowRight" && active < CHAPTERS.length - 1) setActive(active + 1);
+      else if (e.key === "ArrowLeft" && active > 0) setActive(active - 1);
+    });
 
     // primer capítulo activo al cargar
     setTimeout(() => setActive(0), 400);
