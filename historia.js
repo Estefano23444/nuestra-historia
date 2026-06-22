@@ -343,35 +343,60 @@
     btnClose.className = "map-btn map-close";
     btnClose.setAttribute("aria-label", "Cerrar mapa");
     btnClose.innerHTML = "✕";
-    const toolbar = document.createElement("div");
-    toolbar.className = "map-toolbar";
-    toolbar.innerHTML =
-      '<button class="mt-btn mt-prev" type="button" aria-label="Cita anterior">‹</button>' +
-      '<button class="mt-info" type="button" title="Ver este recuerdo">' +
-      '<span class="mt-num"></span>' +
-      '<span class="mt-text"><span class="mt-title"></span><span class="mt-place"></span></span>' +
-      "</button>" +
-      '<button class="mt-btn mt-next" type="button" aria-label="Cita siguiente">›</button>';
+    const card = document.createElement("div");
+    card.className = "map-card";
+    card.innerHTML =
+      '<div class="mc-photo"><img class="mc-img" alt="" decoding="async"><span class="mc-badge"></span></div>' +
+      '<div class="mc-scroll">' +
+      '<div class="mc-meta"><span class="mc-num"></span><span class="mc-chip"></span><span class="mc-place"></span></div>' +
+      '<h3 class="mc-title"></h3>' +
+      '<div class="mc-text"></div>' +
+      '<button class="mc-open" type="button">Ver este recuerdo en la historia ↗</button>' +
+      "</div>" +
+      '<div class="mc-nav">' +
+      '<button class="mc-prev" type="button" aria-label="Cita anterior">‹</button>' +
+      '<span class="mc-counter"></span>' +
+      '<button class="mc-next" type="button" aria-label="Cita siguiente">›</button>' +
+      "</div>";
     mapCol.appendChild(btnMax);
     mapCol.appendChild(btnClose);
-    mapCol.appendChild(toolbar);
+    mapCol.appendChild(card);
 
-    const btnPrev = toolbar.querySelector(".mt-prev");
-    const btnNext = toolbar.querySelector(".mt-next");
-    const tbInfo = toolbar.querySelector(".mt-info");
-    const tbNum = toolbar.querySelector(".mt-num");
-    const tbTitle = toolbar.querySelector(".mt-title");
-    const tbPlace = toolbar.querySelector(".mt-place");
+    const btnPrev = card.querySelector(".mc-prev");
+    const btnNext = card.querySelector(".mc-next");
+    const mcOpen = card.querySelector(".mc-open");
+    const mcScroll = card.querySelector(".mc-scroll");
+    const mcImg = card.querySelector(".mc-img");
+    const mcBadge = card.querySelector(".mc-badge");
+    const mcNum = card.querySelector(".mc-num");
+    const mcChip = card.querySelector(".mc-chip");
+    const mcPlace = card.querySelector(".mc-place");
+    const mcTitle = card.querySelector(".mc-title");
+    const mcText = card.querySelector(".mc-text");
+    const mcCounter = card.querySelector(".mc-counter");
 
     function updateToolbar(i) {
       if (i < 0 || i >= CHAPTERS.length) return;
       const c = CHAPTERS[i];
-      tbNum.textContent = i === 0 ? "♥" : i;
-      tbNum.classList.toggle("star", !!c.star);
-      tbTitle.textContent = c.title;
-      tbPlace.textContent = c.place + " · " + c.date;
+      mcImg.src = c.photo;
+      mcImg.alt = c.title;
+      if (c.badge) {
+        mcBadge.textContent = (c.star ? "★ " : "✿ ") + c.badge;
+        mcBadge.classList.toggle("gold", !!c.star);
+        mcBadge.style.display = "";
+      } else {
+        mcBadge.style.display = "none";
+      }
+      mcNum.textContent = i === 0 ? "♥" : i;
+      mcNum.classList.toggle("star", !!c.star);
+      mcChip.textContent = c.chip;
+      mcPlace.textContent = c.place + " · " + c.date;
+      mcTitle.textContent = c.title;
+      mcText.innerHTML = c.text.map(function (p) { return "<p>" + p + "</p>"; }).join("");
+      mcCounter.textContent = (i + 1) + " / " + CHAPTERS.length;
       btnPrev.disabled = i <= 0;
       btnNext.disabled = i >= CHAPTERS.length - 1;
+      if (mcScroll) mcScroll.scrollTop = 0;
     }
 
     function setMaximized(on) {
@@ -392,7 +417,7 @@
     btnClose.addEventListener("click", function () { setMaximized(false); });
     btnPrev.addEventListener("click", function () { if (active > 0) setActive(active - 1); });
     btnNext.addEventListener("click", function () { if (active < CHAPTERS.length - 1) setActive(active + 1); });
-    tbInfo.addEventListener("click", function () {
+    mcOpen.addEventListener("click", function () {
       const i = active;
       setMaximized(false);
       const art = document.getElementById("cap-" + i);
