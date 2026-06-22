@@ -14,7 +14,7 @@
     {
       photo: "fotos/00-inicio.png", wide: true,
       chip: "16 Jul", date: "16 de julio de 2025", place: "EDINUN · Quito",
-      coords: [-0.1762, -78.4830],
+      coords: [-0.149000, -78.499700],
       badge: "Donde empezó todo",
       title: "El día que te conocí",
       text: [
@@ -25,7 +25,7 @@
     {
       photo: "fotos/01-michael.png",
       chip: "26 Abr", date: "26 de abril", place: "Cine · El Condado Shopping",
-      coords: [-0.0986, -78.4966],
+      coords: [-0.103180, -78.490212],
       title: "Nuestra primera película",
       text: [
         "Te invité al cine y, aunque insistías en que “esto no era una cita”, un peluche pequeñito de la nada se encargó de desmentirte.",
@@ -35,7 +35,7 @@
     {
       photo: "fotos/02-katari.jpeg",
       chip: "2 May", date: "2 de mayo", place: "Katari · Cumbayá",
-      coords: [-0.2052, -78.4287],
+      coords: [-0.201555, -78.429594],
       badge: "Primer beso", star: true,
       title: "El primer beso",
       text: [
@@ -46,7 +46,7 @@
     {
       photo: "fotos/03-bolos.jpeg",
       chip: "8 May", date: "8 de mayo", place: "Multicines · Quicentro",
-      coords: [-0.1759, -78.4795],
+      coords: [-0.176292, -78.479249],
       title: "Jugar contigo",
       text: [
         "Bolos, máquinas del arcade y algo coreano para comer. Perdí casi todas las partidas y no me importó en absoluto.",
@@ -56,7 +56,7 @@
     {
       photo: "fotos/04-flores.jpeg",
       chip: "13 May", date: "13 de mayo", place: "Un café · entre semana",
-      coords: [-0.1808, -78.4848],
+      coords: [-0.102480, -78.489612],
       badge: "Primeras rosas",
       title: "Las primeras rosas",
       text: [
@@ -67,7 +67,7 @@
     {
       photo: "fotos/05-carolina.jpeg",
       chip: "16 May", date: "16 de mayo", place: "Parque La Carolina",
-      coords: [-0.1828, -78.4840],
+      coords: [-0.183873, -78.484703],
       title: "Correr y quedarnos",
       text: [
         "Corrimos, paseamos y hablamos hasta que la tarde se nos escapó. Te di a probar un pedazo de mi tierra en un plato.",
@@ -77,7 +77,7 @@
     {
       photo: "fotos/06-gomichelas.jpeg",
       chip: "22 May", date: "22 de mayo", place: "Mitad del Mundo",
-      coords: [-0.0022, -78.4558],
+      coords: [-0.002196, -78.455889],
       title: "A mitad del mundo",
       text: [
         "Una gomichela, una torre de Jenga y unos besos a escondidas de Samy, nuestra cómplice.",
@@ -87,7 +87,7 @@
     {
       photo: "fotos/07-novios.jpeg",
       chip: "24 May", date: "24 de mayo", place: "Pintando cerámica",
-      coords: [-0.1746, -78.4818],
+      coords: [-0.183600, -78.476400],
       badge: "Nos hicimos novios", star: true,
       title: "El sí",
       text: [
@@ -98,7 +98,7 @@
     {
       photo: "fotos/08-coco.jpg",
       chip: "29 May", date: "29 de mayo", place: "Nuestro rincón",
-      coords: [-0.1300, -78.4850],
+      coords: [-0.047790, -78.460813],
       title: "Quedarnos quietos",
       text: [
         "Agua de coco, pistachos y un sillón. A veces la mejor cita no necesita ningún plan.",
@@ -108,7 +108,7 @@
     {
       photo: "fotos/09-basilica.jpeg",
       chip: "31 May", date: "31 de mayo", place: "Basílica del Voto Nacional",
-      coords: [-0.2147, -78.5073],
+      coords: [-0.214728, -78.507324],
       title: "Como si fuéramos de siempre",
       text: [
         "Fuimos en metro, nos confundieron con turistas y posamos para mil fotos entre las torres.",
@@ -118,7 +118,7 @@
     {
       photo: "fotos/10-backrooms.jpeg",
       chip: "5 Jun", date: "5 de junio", place: "Cine · función de noche",
-      coords: [-0.1060, -78.4830],
+      coords: [-0.107579, -78.458076],
       title: "Tarde, pero juntos",
       text: [
         "Un mal desvío nos hizo llegar treinta minutos tarde a la película. Daba exactamente igual.",
@@ -128,7 +128,7 @@
     {
       photo: "fotos/11-kia.jpeg",
       chip: "6 Jun", date: "6 de junio", place: "Museo interactivo Kia eGround",
-      coords: [-0.1830, -78.4720],
+      coords: [-0.206885, -78.487901],
       title: "Vestirnos el uno al otro",
       text: [
         "Un museo lleno de botones, pizza mitad y mitad, y un juego nuestro: cada uno elegía la ropa del otro.",
@@ -138,7 +138,7 @@
     {
       photo: "fotos/cabina-2.jpg", wide: true,
       chip: "13–14 Jun", date: "13 y 14 de junio", place: "Un fin de semana nuestro",
-      coords: [-0.1900, -78.4880],
+      coords: [-0.175090, -78.492414],
       title: "Jugar a la vida juntos",
       text: [
         "Hicimos las compras como esposos y nos encerramos dos días en un mundo nuestro: piscina, sauna y una cena cocinada a cuatro manos.",
@@ -148,7 +148,7 @@
     {
       photo: "fotos/cabina-4.jpg", wide: true,
       chip: "20 Jun", date: "20 de junio", place: "El Portal · Toy Story",
-      coords: [-0.1556, -78.4762],
+      coords: [-0.106879, -78.457476],
       badge: "Toy Story", star: true,
       title: "Hacia el infinito",
       text: [

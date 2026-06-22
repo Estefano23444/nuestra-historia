@@ -86,9 +86,10 @@ a{ color:inherit; }
     radial-gradient(120% 80% at 30% 20%, rgba(0,0,0,.05), transparent 55%),
     linear-gradient(to top, rgba(28,18,14,.92) 0%, rgba(28,18,14,.5) 38%, rgba(28,18,14,.2) 66%, rgba(28,18,14,.4) 100%);
 }
-/* En pantallas verticales mostramos la foto completa (sin recorte fuerte) */
+/* En móvil la foto del hero es vertical (cabina-5): la dejamos llenar todo el
+   espacio con cover, enfocando la parte alta para no cortar las caras. */
 @media (max-width:760px){
-  .hero-photo{ object-fit:contain; object-position:center 42%; }
+  .hero-photo{ object-fit:cover; object-position:center 30%; }
 }
 .hero-inner{
   position:relative; z-index:2;
@@ -165,7 +166,7 @@ a{ color:inherit; }
 
 .map-col{
   position:sticky; top:0; z-index:5;
-  height:42vh; min-height:300px;
+  height:36vh; min-height:240px;
   background:var(--cream-2);
   border-bottom:1px solid var(--line);
 }
