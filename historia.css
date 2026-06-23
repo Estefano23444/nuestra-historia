@@ -447,6 +447,86 @@ body.map-open{ overflow:hidden; }
 .btn-ghost{ background:transparent; color:var(--terra-deep); border-color:var(--terra); }
 .btn-ghost:hover{ background:var(--rose-soft); }
 
+/* ---------- Ruleta: ¿cuál cita recreamos? ---------- */
+.ruleta-block{ margin:0 auto 3rem; max-width:560px; }
+.ruleta-block .eyebrow{
+  font-size:.76rem; letter-spacing:.42em; text-transform:uppercase;
+  color:var(--terra); font-weight:700; margin:0 0 1rem;
+}
+.ruleta-h{
+  font-family:var(--serif); font-weight:300; font-style:italic;
+  font-size:clamp(1.7rem,5vw,2.6rem); line-height:1.1; margin:0 0 .7rem; color:var(--ink);
+}
+.ruleta-lead{ font-size:1rem; color:var(--ink-soft); max-width:40ch; margin:0 auto 2rem; line-height:1.6; }
+
+.ruleta-stage{ position:relative; width:clamp(258px,80vw,372px); margin:0 auto; }
+.wheel-wrap{ position:relative; width:100%; aspect-ratio:1; }
+.ruleta-pointer{
+  position:absolute; top:-7px; left:50%; transform:translateX(-50%); z-index:6;
+  width:0; height:0;
+  border-left:15px solid transparent; border-right:15px solid transparent;
+  border-top:25px solid var(--terra-deep);
+  filter:drop-shadow(0 3px 3px rgba(58,45,39,.35));
+}
+.wheel{
+  position:relative; width:100%; height:100%; border-radius:50%;
+  border:8px solid var(--paper);
+  box-shadow:0 0 0 3px var(--gold), var(--shadow);
+  transition:transform 5s cubic-bezier(.13,.78,.28,1);
+  transform:rotate(0deg);
+}
+.wheel-label{
+  position:absolute; left:50%; top:0; height:50%;
+  transform-origin:bottom center;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:7%;
+  font:700 clamp(.8rem,2.5vw,1.05rem)/1 var(--sans);
+  color:#fff; text-shadow:0 1px 2px rgba(58,45,39,.45);
+  pointer-events:none; user-select:none;
+}
+.wheel-label.star{ color:#fff4d6; }
+.wheel-hub{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:26%; height:26%; border-radius:50%;
+  background:var(--paper); color:var(--terra-deep); border:3px solid var(--terra);
+  font:600 clamp(.82rem,2.6vw,1.02rem)/1 var(--serif); font-style:italic;
+  cursor:pointer; z-index:5; box-shadow:var(--shadow-sm); transition:.2s;
+}
+.wheel-hub:hover{ transform:translate(-50%,-50%) scale(1.07); background:#fff; }
+.wheel-hub:disabled{ cursor:default; opacity:.65; }
+
+.ruleta-result{
+  margin:1.8rem auto 0; max-width:440px;
+  opacity:0; transform:translateY(10px); transition:.5s; min-height:1px;
+}
+.ruleta-result.show{ opacity:1; transform:none; }
+.rr-card{
+  display:flex; gap:1rem; align-items:center; text-align:left;
+  background:var(--paper); border:1px solid var(--line);
+  border-radius:18px; padding:.8rem; box-shadow:var(--shadow-sm);
+}
+.rr-photo{ flex:0 0 96px; width:96px; height:120px; border-radius:12px; overflow:hidden; }
+.rr-photo img{ width:100%; height:100%; object-fit:cover; }
+.rr-body{ flex:1 1 auto; min-width:0; }
+.rr-eyebrow{
+  font-size:.66rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--terra); font-weight:700;
+}
+.rr-title{
+  font-family:var(--serif); font-weight:400; font-size:1.3rem;
+  margin:.25rem 0 .3rem; color:var(--ink); line-height:1.15;
+}
+.rr-place{ font-size:.85rem; color:var(--muted); margin:0 0 .6rem; }
+.rr-open{
+  font:700 .82rem var(--sans); color:var(--terra-deep);
+  background:none; border:none; padding:0; cursor:pointer;
+}
+.rr-open:hover{ text-decoration:underline; }
+
+@media (prefers-reduced-motion: reduce){
+  .wheel{ transition-duration:.7s; }
+}
+
 .sign-final{
   margin-top:3rem; font-family:var(--serif); font-style:italic;
   font-size:1.3rem; color:var(--muted);

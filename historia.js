@@ -57,11 +57,10 @@
       photo: "fotos/04-flores.jpeg",
       chip: "13 May", date: "13 de mayo", place: "Un café · entre semana",
       coords: [-0.102480, -78.489612],
-      badge: "Primeras rosas",
-      title: "Las primeras rosas",
+      title: "Un café entre semana",
       text: [
-        "Le robamos una tarde a un martes cualquiera, un café a escondidas del mundo solo para vernos.",
-        "Ese día te llevé rosas por primera vez: la excusa perfecta para verte sonreír de cerca."
+        "Le robamos una tarde a un martes cualquiera, sin más plan que vernos. Un café a escondidas del mundo, un rato pequeño que era solo nuestro.",
+        "Hablamos bajito entre sorbo y sorbo, alargando cada minuto, y aun así la tarde se nos hizo corta sin darnos cuenta. Ese rato pequeño terminó siendo de los que se vuelven grandes."
       ]
     },
     {
@@ -129,15 +128,15 @@
       photo: "fotos/11-kia.jpeg",
       chip: "6 Jun", date: "6 de junio", place: "Museo interactivo Kia eGround",
       coords: [-0.206885, -78.487901],
-      title: "Vestirnos el uno al otro",
+      title: "Curiosos como niños",
       text: [
-        "Un museo lleno de botones, pizza mitad y mitad, y un juego nuestro: cada uno elegía la ropa del otro.",
-        "Así aprendí cómo te gusta verme. Cerramos con un bubble tea y otro viaje de vuelta con final feliz."
+        "Un museo interactivo lleno de botones, pantallas y cosas por tocar, y nosotros dos hechos unos niños con ganas de probarlo todo. Entre experimento y experimento, una pizza mitad y mitad, cada quien con su lado favorito.",
+        "No dejamos rincón sin curiosear y nos reímos de cada descubrimiento. Cerramos con un bubble tea y otro viaje de vuelta abrazados, con ese final feliz que ya se nos volvió costumbre."
       ]
     },
     {
-      photo: "fotos/cabina-2.jpg", wide: true,
-      chip: "13–14 Jun", date: "13 y 14 de junio", place: "Un fin de semana nuestro",
+      photo: "fotos/12-arbinb.jpeg", wide: true,
+      chip: "13-14 Jun", date: "13 y 14 de junio", place: "Un fin de semana nuestro",
       coords: [-0.175090, -78.492414],
       title: "Jugar a la vida juntos",
       text: [
@@ -158,7 +157,7 @@
     }
   ];
 
-  const FIRST_MONTH = new Date("2026-06-24T00:00:00");
+  const FIRST_MONTH = new Date("2026-06-24T16:00:00");
 
   // ---------------- render de capítulos ----------------
   const story = document.getElementById("story");
@@ -222,6 +221,98 @@
   }
   tick();
   setInterval(tick, 1000);
+
+  // ---------------- ruleta: ¿cuál cita recreamos? (independiente del mapa) ----------------
+  // Es un plus: va en su propio try y antes del mapa, para que nada lo rompa.
+  try {
+    const wheel = document.getElementById("wheel");
+    const hub = document.getElementById("wheelHub");
+    const resultBox = document.getElementById("ruletaResult");
+    if (wheel && hub && resultBox) {
+      const N = CHAPTERS.length;
+      const SEG = 360 / N;
+      const COLORS = ["#c1663d", "#d98c7c", "#c2a05a", "#a44b27"];
+
+      // fondo: un sector por cita (conic-gradient empieza arriba y va en sentido horario)
+      const stops = CHAPTERS.map((c, i) => {
+        const col = c.star ? "#b98a36" : COLORS[i % COLORS.length];
+        return col + " " + (i * SEG) + "deg " + ((i + 1) * SEG) + "deg";
+      });
+      wheel.style.background = "conic-gradient(from 0deg, " + stops.join(", ") + ")";
+
+      // etiqueta con el número de cada cita, en su radio (gira con la rueda;
+      // la cita ganadora queda derecha bajo el puntero al detenerse)
+      CHAPTERS.forEach((c, i) => {
+        const a = i * SEG + SEG / 2;
+        const label = document.createElement("div");
+        label.className = "wheel-label" + (c.star ? " star" : "");
+        label.style.transform = "translateX(-50%) rotate(" + a + "deg)";
+        label.textContent = i === 0 ? "♥" : String(i);
+        wheel.appendChild(label);
+      });
+
+      // Resultados permitidos: cine o café (parece azar, pero siempre cae en una de estas).
+      // Se deduce de `place`, así sobrevive si se reordenan o editan los capítulos.
+      let pool = CHAPTERS.map((c, i) => i).filter((i) => /cine|caf[eé]/i.test(CHAPTERS[i].place));
+      if (!pool.length) pool = CHAPTERS.map((c, i) => i); // salvaguarda
+
+      let rot = 0;
+      let spinning = false;
+
+      function showResult(i) {
+        const c = CHAPTERS[i];
+        resultBox.innerHTML =
+          '<div class="rr-card">' +
+          '<div class="rr-photo"><img src="' + c.photo + '" alt="' + c.title + '" decoding="async"></div>' +
+          '<div class="rr-body">' +
+          '<span class="rr-eyebrow">Nuestra próxima cita ❤</span>' +
+          '<h4 class="rr-title">' + c.title + "</h4>" +
+          '<p class="rr-place">' + c.chip + " · " + c.place + "</p>" +
+          '<button class="rr-open" type="button">Ver este recuerdo ↗</button>' +
+          "</div></div>";
+        resultBox.classList.add("show");
+        const openBtn = resultBox.querySelector(".rr-open");
+        if (openBtn) {
+          openBtn.addEventListener("click", function () {
+            const art = document.getElementById("cap-" + i);
+            if (art) art.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
+      }
+
+      function spin() {
+        if (spinning) return;
+        spinning = true;
+        hub.disabled = true;
+        resultBox.classList.remove("show");
+
+        const target = pool[Math.floor(Math.random() * pool.length)];
+        const center = target * SEG + SEG / 2;            // centro del sector (horario desde arriba)
+        const jitter = (Math.random() - 0.5) * (SEG - 8); // cae dentro del sector, sin repetir el punto
+        // para que (center + rot) quede bajo el puntero (arriba): rot ≡ 360 - center
+        const targetMod = (((360 - center - jitter) % 360) + 360) % 360;
+        let next = rot + 360 * 5;                          // al menos 5 vueltas hacia adelante
+        next += (((targetMod - (next % 360)) % 360) + 360) % 360;
+        rot = next;
+        wheel.style.transform = "rotate(" + rot + "deg)";
+
+        let done = false;
+        const finish = function () {
+          if (done) return;
+          done = true;
+          spinning = false;
+          hub.disabled = false;
+          showResult(target);
+        };
+        wheel.addEventListener("transitionend", finish, { once: true });
+        setTimeout(finish, 5400); // respaldo por si transitionend no dispara
+      }
+
+      hub.addEventListener("click", spin);
+    }
+  } catch (err) {
+    console.error("Ruleta no disponible:", err);
+  }
 
   // ---------------- mapa (Leaflet) ----------------
   // Si Leaflet (CDN) no carga, la historia y la cuenta regresiva siguen

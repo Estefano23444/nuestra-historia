@@ -39,7 +39,7 @@
       <img class="hero-photo" src="fotos/cabina-5.jpg" alt="Nosotros, en una cabina de fotos" />
     </div>
     <div class="hero-inner">
-      <p class="hero-kicker">Quito · 2025 — 2026</p>
+      <p class="hero-kicker">Quito · 2025-2026</p>
       <h1>Nuestra<br><em>historia</em></h1>
       <p class="lead">Un mapa de la ciudad donde, cita a cita, nos fuimos enamorando. Desliza para recorrer cada lugar que se volvió nuestro.</p>
     </div>
@@ -50,7 +50,7 @@
   <section class="prelude">
     <p class="eyebrow">Antes de empezar</p>
     <p>“Todo gran amor tiene un mapa. Este es el nuestro, y apenas llevamos el primer mes.”</p>
-    <span class="sign">— Estéfano, para ti</span>
+    <span class="sign">De Estefano, Para Ti</span>
   </section>
 
   <!-- STAGE: mapa sticky + historia -->
@@ -77,14 +77,29 @@
       <img src="fotos/cabina-2.jpg" alt="Nosotros" style="--r:-3deg" loading="lazy" />
       <img src="fotos/cabina-3.jpg" alt="Nosotros" style="--r:2deg" loading="lazy" />
       <img src="fotos/cabina-4.jpg" alt="Nosotros" style="--r:-2deg" loading="lazy" />
-      <img src="fotos/cabina-5.jpg" alt="Nosotros" style="--r:3deg" loading="lazy" />
+      <img src="fotos/cabina-1.jpg" alt="Nosotros" style="--r:3deg" loading="lazy" />
+    </div>
+
+    <!-- RULETA: ¿cuál cita recreamos para el primer mes? -->
+    <div class="ruleta-block reveal" id="ruletaBlock">
+      <p class="eyebrow">El sorteo del primer mes</p>
+      <h3 class="ruleta-h">¿Cuál cita recreamos?</h3>
+      <p class="ruleta-lead">Gira la ruleta y deja que el azar, con un guiño del destino, elija la cita que volveremos a vivir.</p>
+      <div class="ruleta-stage">
+        <div class="ruleta-pointer" aria-hidden="true"></div>
+        <div class="wheel-wrap">
+          <div class="wheel" id="wheel"></div>
+          <button class="wheel-hub" id="wheelHub" type="button" aria-label="Girar la ruleta">Girar</button>
+        </div>
+      </div>
+      <div class="ruleta-result" id="ruletaResult" aria-live="polite"></div>
     </div>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#">Volver a vivirlo ↑</a>
     </div>
 
-    <p class="sign-final">Hacia el infinito y más allá. — E.</p>
+    <p class="sign-final">Hacia el infinito y más allá. Tuyo, E.</p>
   </section>
 
   <footer class="site-foot">
